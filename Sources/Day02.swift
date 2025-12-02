@@ -52,9 +52,11 @@ struct Day02: AdventDay {
 
     private func isValid2(id: Int) -> Bool {
         let str = String(id)
+        
+        var rptStr = ""
         var shift = 1
 
-        while shift <= str.count / 2 {
+        while rptStr != str, shift <= str.count / 2 {
             defer {
                 shift += 1
             }
@@ -62,13 +64,9 @@ struct Day02: AdventDay {
             guard str.count % shift == 0 else { continue }
 
             let rpt = str.count / shift
-            let rptStr = String(repeating: String(str.prefix(shift)), count: rpt)
-
-            if str == rptStr {
-                return false
-            }
+            rptStr = String(repeating: String(str.prefix(shift)), count: rpt)
         }
 
-        return true
+        return rptStr != str
     }
 }
