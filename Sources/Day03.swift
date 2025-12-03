@@ -56,13 +56,14 @@ struct Day03: AdventDay {
                 let cursum = getsum(stack)
 
                 for i in 0 ..< 12 {
-                    var updated = stack
-                    updated.remove(at: i)
-                    updated.append(battery)
+                    let removed = stack.remove(at: i)
+                    stack.append(battery)
 
-                    if getsum(updated) > cursum {
-                        stack = updated
+                    if getsum(stack) > cursum {
                         break
+                    } else {
+                        stack.removeLast()
+                        stack.insert(removed, at: i)
                     }
                 }
             }
