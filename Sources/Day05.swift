@@ -39,11 +39,6 @@ struct Day05: AdventDay {
         fresh = fresh.sorted { $0[0] == $1[0] ? $0[1] < $1[1] : $0[0] < $1[0] }
 
         for f in fresh {
-            guard !res.isEmpty else {
-                res.append(f)
-                continue
-            }
-
             if let last = res.last, last[1] >= f[0] {
                 let li = res.count - 1
                 res[li][1] = max(res[li][1], f[1])
