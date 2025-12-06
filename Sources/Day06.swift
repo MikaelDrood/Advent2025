@@ -49,7 +49,7 @@ struct Day06: AdventDay {
         let rows = data.components(separatedBy: .newlines)
         let mat = rows.map { Array($0) }
 
-        let r = rows.count
+        let rOp = rows.count - 1
         var c = rows.reduce(into: 0) { $0 = max($0, $1.count) } - 1
 
         var sum = 0
@@ -66,7 +66,7 @@ struct Day06: AdventDay {
 
             nums.append(num)
 
-            if let op = Op(rawValue: "\(mat[r - 1][c])") {
+            if let op = Op(rawValue: "\(mat[rOp][c])") {
                 sum += op == .mlp ? nums.reduce(1, *) : nums.reduce(0, +)
                 nums = []
                 c -= 2
