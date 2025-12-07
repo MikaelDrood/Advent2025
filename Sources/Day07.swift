@@ -2,7 +2,7 @@ import Algorithms
 
 struct Day07: AdventDay {
 
-    struct P {
+    struct P: Hashable {
         let r: Int
         let c: Int
 
@@ -19,20 +19,23 @@ struct Day07: AdventDay {
     }
 
     func part1() -> Any {
-        var m = entities
         var ans = 0
+        var visited: Set<P> = []
 
-        let rc = m.count
+        let rc = entities.count
         let startC = entities[0].firstIndex(of: "S")!
+
         var next: [P] = [P(0, startC)]
 
         while !next.isEmpty {
             let p = next.removeFirst()
 
+            guard !visited.contains(p) else { continue }
             guard p.r + 1 < rc else { continue }
-            guard m[p.r][p.c] != "|" else { continue }
 
-            switch m[p.r][p.c] {
+            visited.insert(p)
+
+            switch entities[p.r][p.c] {
             case "^":
                 ans += 1
                 
@@ -43,15 +46,13 @@ struct Day07: AdventDay {
             default:
                 break
             }
-
-            m[p.r][p.c] = "|"
         }
 
         return ans
     }
 
     func part2() -> Any {
-        var m = entities
+        var visited: Set<P> = []
         let rc = entities.count, cc = entities[0].count
 
         let startC = entities[0].firstIndex(of: "S")!
@@ -63,10 +64,12 @@ struct Day07: AdventDay {
         while !next.isEmpty {
             let p = next.removeFirst()
 
-            guard m[p.r][p.c] != "|" else { continue }
+            guard !visited.contains(p) else { continue }
             guard p.r + 1 < rc else { continue }
 
-            switch m[p.r][p.c] {
+            visited.insert(p)
+
+            switch entities[p.r][p.c] {
             case "^":
                 let nl = P(p.r + 1, p.c - 1)
                 ansMap[nl.r][nl.c] += ansMap[p.r][p.c]
@@ -82,8 +85,6 @@ struct Day07: AdventDay {
             default:
                 break
             }
-
-            m[p.r][p.c] = "|"
         }
 
         return ansMap[rc - 1].reduce(0, +)
