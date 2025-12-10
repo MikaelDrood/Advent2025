@@ -76,6 +76,10 @@ extension Day10.Machine {
                 let lights = toggle(state.lights, scheme)
                 let next = State(lights: lights, steps: state.steps + 1)
 
+                if let visited = visited[next.lights], visited < state.steps {
+                    continue
+                }
+
                 visited[next.lights] = next.steps
                 queue.insert(next)
             }
